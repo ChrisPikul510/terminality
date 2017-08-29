@@ -27,7 +27,7 @@ export default class Shell extends React.Component {
             home: '/home/user',
             path: '/home/user'
         },
-        theme: 'solar'
+        theme: 'classic'
     }
 
     evtCmd = null
@@ -138,8 +138,13 @@ export default class Shell extends React.Component {
     }
 
     handleEvent = evt => {
-        if(evt.type === 'ECHOPING') {
-            this.refs.feed.addEntry(null, 'Interface is open. ShellI completed the trip!\nIf this message appeared before your prompt line, it\'s because it\'s faster.\n\n')
+        switch(evt.type) {
+            case 'ECHOPING':
+                this.refs.feed.addEntry(null, 'Interface is open. ShellI completed the trip!\nIf this message appeared before your prompt line, it\'s because it\'s faster.\n\n')
+                break;
+            case 'THEME':
+                this.setState({ theme: evt.theme })
+                break;
         }
     }
 }

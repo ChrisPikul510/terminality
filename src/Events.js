@@ -23,9 +23,8 @@ class EventDispatcher {
 	dispatch(key, evt = null) {
 		if(typeof key === 'undefined' || key === null)
 			throw 'EventDispatcher::dispatch Cannot dispatch an event with no key'
-		key = key.toLowerCase().trim()
-
-		__DEV__ && console.log('Dispatching', key, evt)
+        key = key.toLowerCase().trim()
+        
 		if(this.delegates.has(key)) {
             const delMap = this.delegates.get(key)
             
