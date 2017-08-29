@@ -23,6 +23,7 @@ export default class Shell extends React.Component {
     state ={
         sudo: null,
         user: 'user',
+        path: '/home/user',
         env: {
             home: '/home/user',
             path: '/home/user'
@@ -45,11 +46,11 @@ export default class Shell extends React.Component {
     }
 
     render() {
-        const { sudo, user, theme } = this.state
+        const { sudo, user, theme, path } = this.state
         return <div id='shell' className={'theme-'+theme}>
             <Feed ref='feed' />
             <Prompt ref='prompt' 
-                user={sudo !== null ? sudo : user} hostname={hostname} path='~' sudo={(sudo !== null)}
+                user={sudo !== null ? sudo : user} hostname={hostname} path={path} sudo={(sudo !== null)}
                 onEnter={this.handleEnter} />
         </div>
     }
@@ -60,7 +61,7 @@ export default class Shell extends React.Component {
             .then(call => ({
                 ...call,
                 env: this.state.env,
-                path: '~',
+                path: this.state.path,
                 user: this.state.user,
                 hostname: hostname,
                 sudo: this.state.sudo

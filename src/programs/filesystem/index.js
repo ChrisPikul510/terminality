@@ -7,7 +7,8 @@ export default {
     'whereami': exec => exec.path,
     'mount': mount,
     'stat': stat,
-    'cat': cat
+    'cat': cat,
+    'ls': ls
 }
 
 function mount(exec) {
@@ -31,12 +32,59 @@ function stat(exec) {
 }
 
 function cat(exec) {
-    if(exec.args.length === 0)
-        return 'Please supply a path to the file'
+    let path = exec.path
+    if(exec.args.length > 0) {
+        path = exec.args[exec.args.length  - 1]
+        if(path.charAt(0) !== '/') {
+            if(path.startsWith('./')) {
+                const rel = path.substr(2)
+                if(rel.length > 0)
+                    path = exec.path + '/' + path.substr(2)
+                else
+                    path = exec.path
+            } else
+                path = exec.path + '/' + path
+        }
+    }
 
-    const contents = MSFS.readFile(exec.args[exec.args.length  - 1])
+    const contents = MSFS.readFile(path)
     if(!contents)
         return `Error parsing path, maybe the file doesn't exist?`
 
     return contents
+}
+
+function ls(exec) {
+    let path = exec.path
+    if(exec.args.length > 0) {
+        path = exec.args[exec.args.length  - 1]
+        if(path.charAt(0) !== '/') {
+            if(path.startsWith('./')) {
+                const rel = path.substr(2)
+                if(rel.length > 0)
+                    path = exec.path + '/' + path.substr(2)
+                else
+                    path = exec.path
+            } else
+                path = exec.path + '/' + path
+        }
+    }
+
+    const contents = MSFS.listContents(path)
+    if(!contents)
+        return `Error parsing path ${path}, maybe the folder doesn't exist?`
+
+    if(contents.length === 0)
+        return `Folder is empty`
+
+    contents.sort((a,b) => {
+        const upA = (a.isDir?0:10)+a.name.toUpperCase(), upB = (b.isDir?0:10)+b.name.toUpperCase()
+        return upA > upB ? 1 : (upA < upB ? -1 : 0)
+    })
+    let results = `Contents of path: ${path} (${contents.length} items)\n\n`
+    for(const obj of contents) {
+        results += `\t${obj.name}\t\t${obj.isDir?'Directory':'File'}`
+    }
+
+    return results
 }

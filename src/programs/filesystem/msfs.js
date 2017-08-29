@@ -34,6 +34,11 @@ function getPathObj(path) {
         return null
     }
 
+    if(path.startsWith('/')==false || /[^\w\s\/\.]/g.test(path)) {
+        console.log('[MSFS.stat] Invlaid path format', path)
+        return null
+    }
+
     const tokens = path.split('/')
     let pathObj = _fs
     for(let i=1; i < tokens.length; i++) {
@@ -46,7 +51,7 @@ function getPathObj(path) {
         }
     }
 
-    return pathObj['[i]']
+    return pathObj
 }
 
 var _fs = null
@@ -56,11 +61,11 @@ class MSFS {
     }
 
     stat(path) {
-        if(path.startsWith('/')==false || /[^\w\s\/\.]/g.test(path)) {
-            console.log('[MSFS.stat] Invlaid path format', path)
+        const result = getPathObj(path)
+        if(result)
+            return result['[i]']
+        else
             return null
-        }
-        return getPathObj(path)
     }
 
     readFile(path) {
@@ -76,6 +81,28 @@ class MSFS {
             return null
         } else
             return stat.content
+    }
+
+    listContents(path) {
+        const result = getPathObj(path)
+        if(!result)
+            return null
+
+        const stat = result['[i]']
+        if((stat.perm & 0o1000)==false)
+            return null
+
+        const rtn = []
+        for(const key in result) {
+            if(key.charAt(0) !== '[') {
+                rtn.push({
+                    name: key,
+                    isDir: stat.perm & 0o1000
+                })
+            }
+        }
+
+        return rtn
     }
 }
 
