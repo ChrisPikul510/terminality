@@ -3,8 +3,6 @@ html, body {
     
     font-family: monospace;
     font-size: 14px;
-    color: limegreen;
-    background: #010A00;
 
     margin: 0;
     padding: 0;
@@ -15,6 +13,12 @@ html, body {
 html, body, body * {
     box-sizing: border-box;
     line-height: 1.25em;
+}
+
+div#root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 pre {
@@ -34,3 +38,6 @@ pre {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+@import './themes/classic.scss';
+@import './themes/solar.scss';

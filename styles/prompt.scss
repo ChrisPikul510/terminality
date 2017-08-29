@@ -24,29 +24,7 @@ div.prompt {
         align-items: flex-start;
 
         .prompt-prefix {
-            color: green;
             margin-right: 1ch;
-
-            .pmt-pre-user {
-                color: #00af00;
-                font-weight: bold;
-            }
-
-            .pmt-pre-host {
-
-            }
-
-            .pmt-pre-path {
-
-            }
-
-            .pmt-pre-end {
-                
-            }
-
-            .pmt-pre-sepr {
-                color: darkgreen;
-            }
         }
 
         .prompt-cursor {
@@ -55,63 +33,6 @@ div.prompt {
             width: 1ch;
             height: 1.24em;
             vertical-align: baseline;
-            will-change: background-color;
-
-            &.focus {
-                animation: blink 0.5s linear alternate infinite;
-            }
-
-            &.blur {
-                animation: blinkDark 1s linear alternate infinite;
-            }
-
-            @keyframes blink {
-                0% {
-                    background-color: transparent;
-                }
-                45% {
-                    background-color: transparent;
-                }
-                55% {
-                    background-color: limegreen;
-                }
-                100% {
-                    background-color: limegreen;
-                }
-            }
-            
-            @keyframes blinkDark {
-                0% {
-                    background-color: transparent;
-                }
-                45% {
-                    background-color: transparent;
-                }
-                55% {
-                    background-color: darkgreen;
-                }
-                100% {
-                    background-color: darkgreen;
-                }
-            }
         }
-
-        .pmt-space {
-            background: #111;
-        }
-
-        .pmt-cmd {
-            font-weight: bold;
-        }
-
-        .pmt-prop {
-            color: cyan;
-        }
-    }
-
-    &.pmt-sudo {
-        div.prompt-content span.prompt-prefix { color: gold; }
-        div.prompt-content span.prompt-prefix .pmt-pre-user { color: yellow; }
-        div.prompt-content span.prompt-prefix .pmt-pre-sepr { color: darkgoldenrod; }
     }
 }

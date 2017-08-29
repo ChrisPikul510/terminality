@@ -1,11 +1,13 @@
 import React from 'react'
 
-import { parseInputToCall } from './processing/Parser'
-import { formatOutput } from './processing/Output'
+import Events from '../Events'
 
-import Commands from './commands'
-import Programs from './programs'
-import Errors from './errors'
+import { parseInputToCall } from '../processing/Parser'
+import { formatOutput } from '../processing/Output'
+
+import Commands from '../commands'
+import Programs from '../programs'
+import Errors from '../errors'
 
 import Feed from './Feed'
 import Prompt from './Prompt'
@@ -24,17 +26,27 @@ export default class Shell extends React.Component {
         env: {
             home: '/home/user',
             path: '/home/user'
-        }
+        },
+        theme: 'solar'
     }
 
+    evtCmd = null
+
     componentDidMount() {
+        this.evtCmd = Events.addListener('shelli.cmd', this.handleEvent)
+
         this.refs.feed.addEntry(null, formatOutput(_welcomeMsg))
         this.refs.prompt.setActive(true)
     }
 
+    componentWillUnmount() {
+        if(this.evtCmd)
+            Events.removeListener(this.evtCmd)
+    }
+
     render() {
-        const { sudo, user } = this.state
-        return <div id='shell'>
+        const { sudo, user, theme } = this.state
+        return <div id='shell' className={'theme-'+theme}>
             <Feed ref='feed' />
             <Prompt ref='prompt' 
                 user={user} hostname={hostname} path='~' sudo={sudo}
@@ -123,5 +135,11 @@ export default class Shell extends React.Component {
                 this.refs.prompt.reset()
                 this.refs.prompt.setActive(true)
             })
+    }
+
+    handleEvent = evt => {
+        if(evt.type === 'ECHOPING') {
+            this.refs.feed.addEntry(null, 'Interface is open. ShellI completed the trip!\nIf this message appeared before your prompt line, it\'s because it\'s faster.\n\n')
+        }
     }
 }

@@ -121,6 +121,8 @@ export default class Prompt extends React.Component {
                 else {
                     if(t.startsWith('-'))
                         classes.push('pmt-prop')
+                    else
+                        classes.push('pmt-arg')
                 }
 
                 value.push(<span className={classes.join(' ')} key={'t-'+ind}>{t}</span>)

@@ -21,7 +21,7 @@ export default class PromptHistory extends React.PureComponent {
                 <span className='pmt-pre-path'>{path}</span>
                 <span className='pmt-pre-end'>{sudo ? '#' : '$'}</span>
             </span>
-            { value }
+            <span className='prompt-history'>{ value }</span>
         </div>
     </div>
     }

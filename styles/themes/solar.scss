@@ -1,0 +1,74 @@
+
+div#shell.theme-solar {
+    background: black;
+    color: white;
+
+    .feed-entry {
+        color: lightgray;
+    }
+
+    .prompt-prefix {
+        color: teal;
+
+        .pmt-pre-user { color: yellow; }
+        .pmt-pre-sepr { color: blue; }
+        .pmt-pre-host { color: #00FF00; }
+        .pmt-pre-path { color: red; }
+        .pmt-pre-end { 
+            margin-left: 1ch; margin-right: 1ch;
+            color: turquoise;
+        }
+    }
+
+    .prompt-cursor {
+        will-change: background;
+
+        &.focus {
+            animation: blink 0.5s linear alternate infinite;
+        }
+
+        &.blur {
+            animation: blinkDark 1s linear alternate infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                background-color: transparent;
+            }
+            45% {
+                background-color: transparent;
+            }
+            55% {
+                background-color: white;
+            }
+            100% {
+                background-color: white;
+            }
+        }
+        
+        @keyframes blinkDark {
+            0% {
+                background-color: transparent;
+            }
+            45% {
+                background-color: transparent;
+            }
+            55% {
+                background-color: gray;
+            }
+            100% {
+                background-color: gray;
+            }
+        }
+    }
+
+    .pmt-cmd { color: turquoise; font-weight: bold }
+    .pmt-arg { font-style: italic; }
+    .pmt-prop { color: fuchsia; }
+
+    .prompt-history { color: white; }
+
+    .prompt.pmt-sudo {
+        .prompt-prefix .pmt-pre-end { color: white; font-weight: bold; }
+    }
+}
