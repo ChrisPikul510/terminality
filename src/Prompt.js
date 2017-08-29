@@ -14,15 +14,23 @@ export default class Prompt extends React.Component {
         ctrl: false,
         alt: false,
         shift: false,
-        active: false
+        active: false,
+        focus: false
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown)
+        //document.addEventListener('keydown', this.handleKeyDown)
+        document.addEventListener('mouseup', this.handleTouch)
+        document.addEventListener('touchstart', this.handleTouch)
+
+        if(this.state.active)
+            this.refs.input.focus()
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyDown)
+        //document.removeEventListener('keydown', this.handleKeyDown)
+        document.removeEventListener('mouseup', this.handleTouch)
+        document.removeEventListener('touchstart', this.handleTouch)
     }
 
     render() {
@@ -38,8 +46,14 @@ export default class Prompt extends React.Component {
                     <span className='pmt-pre-end'>{sudo ? '#' : '$'}</span>
                 </span>
                 { this.state.value }
-                { this.state.active && <span className='prompt-cursor'></span> }
+                { this.state.active && <span className={'prompt-cursor'+(this.state.focus?' focus':' blur')}></span> }
             </div>
+            <input type='text' ref='input' 
+                value={this.state.raw} 
+                onKeyDown={this.handleKeyDown} 
+                onChange={() => {}}
+                onFocus={() => this.setState({ focus: true })}
+                onBlur={() => this.setState({ focus: false })} />
         </div>
     }
 
@@ -48,7 +62,15 @@ export default class Prompt extends React.Component {
         raw: ''
     })
 
-    setActive = active => this.setState({ active })
+    setActive = active => this.setState({ active }, () => {
+        if(this.state.active)
+            this.refs.input.focus()
+    })
+
+    handleTouch = evt => {
+        if(this.state.active)
+            this.refs.input.focus()
+    }
 
     handleChange = evt => this.setState({ value: evt.target.value })
     handleKeyDown = evt => {
