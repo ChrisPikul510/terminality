@@ -12,10 +12,10 @@ const noop = () => {}
 
 const commands = {
     'help': Help,
-    'clear': noop,
-    'sudo': noop,
-    'exit': noop,
-    'echo': noop,
+    'clear': () => ({ shell: {type: 'clear'} }),
+    'sudo': exec => ({ shell: {type: 'sudo', user: exec.user} }),
+    'exit': () => ({ shell: {type: 'exit'} }),
+    'echo': exec => exec.rawArgs,
     'whoami': exec => exec.user,
     'pngshl': exec => ShellI.pingBack(exec.path),
     'theme': theme
@@ -25,11 +25,15 @@ function theme(exec) {
     if(exec.args.length === 1) {
         switch(exec.args[0]) {
             case 'classic':
-                ShellI.setTheme('classic')
-                break;
+                return {
+                    stdout: 'Set theme to classic',
+                    shell: { type: 'theme', theme: 'classic' }
+                }
             case 'solar':
-                ShellI.setTheme('solar')
-                break;
+                return {
+                    stdout: 'Set theme to solar',
+                    shell: { type: 'theme', theme: 'solar' }
+                }
             default:
                 return 'No theme available by that name.\nAvailable Themes: classic, solar'
         }

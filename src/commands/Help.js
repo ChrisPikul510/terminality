@@ -12,6 +12,7 @@ Commands:
     sudo        -   Doesn't do anything yet, but changes the prompt color!
     exit        -   Removes sudo status
     echo        -   Writes out it's own arguments
+    theme       -   Changes the shell theme
     whoami      -   Writes out who your user is
 
 Filesystem:

@@ -21,7 +21,7 @@ Otherwise use 'help' for a list of some commands you can use.`
 
 export default class Shell extends React.Component {
     state ={
-        sudo: false,
+        sudo: null,
         user: 'user',
         env: {
             home: '/home/user',
@@ -49,7 +49,7 @@ export default class Shell extends React.Component {
         return <div id='shell' className={'theme-'+theme}>
             <Feed ref='feed' />
             <Prompt ref='prompt' 
-                user={user} hostname={hostname} path='~' sudo={sudo}
+                user={sudo !== null ? sudo : user} hostname={hostname} path='~' sudo={(sudo !== null)}
                 onEnter={this.handleEnter} />
         </div>
     }
@@ -80,27 +80,23 @@ export default class Shell extends React.Component {
                 if(!_exec)
                     throw 'PANIC'
 
-                let formatted = null
+                let formatted = null, shellInstr = null
                 if(output) {
-                    formatted = formatOutput(output, _exec)
+                    if(typeof output === 'object') {
+                        if(output.hasOwnProperty('stdout'))
+                            formatted = formatOutput(output.stdout, _exec)
+
+                        if(output.hasOwnProperty('shell'))
+                            shellInstr = output.shell
+                    } else if(typeof output === 'string')
+                        formatted = formatOutput(output, _exec)
                 }
 
-                if(_isCMD && (_exec.cmd === 'clear' || _exec.cmd === 'clr')) {
+                if(shellInstr && shellInstr.type === 'clear') {
                     this.refs.feed.clear()
                 } else {
-                    if(_isCMD) {
-                        if(_exec.cmd === 'sudo') {
-                            this.setState({ 
-                                sudo: true,
-                                user: (_exec.args.length == 2 && _exec.args[0] == 'su' ? _exec.args[1] : 'user')
-                            })
-                        } else if(_exec.cmd === 'exit') {
-                            this.setState({ 
-                                sudo: false,
-                                user: 'user'
-                            })
-                        }
-                    }
+                    if(shellInstr && shellInstr.type)
+                        this.handleInstruction(shellInstr)
 
                     this.refs.feed.addEntry({
                         user: _exec.user,
@@ -131,19 +127,28 @@ export default class Shell extends React.Component {
                     value
                 }, formatted)
 
-
                 this.refs.prompt.reset()
                 this.refs.prompt.setActive(true)
             })
+    }
+
+    handleInstruction = instr => {
+        switch(instr.type) {
+            case 'sudo':
+                return this.setState({ sudo: (shellInstr.user ? shellInstr.user : this.state.user) })
+            case 'exit':
+                return this.setState({ sudo: null })
+            case 'theme':
+                return this.setState({ theme: instr.theme })
+            default:
+                console.warn('Unknown shell instruction!', instr.type)
+        }
     }
 
     handleEvent = evt => {
         switch(evt.type) {
             case 'ECHOPING':
                 this.refs.feed.addEntry(null, 'Interface is open. ShellI completed the trip!\nIf this message appeared before your prompt line, it\'s because it\'s faster.\n\n')
-                break;
-            case 'THEME':
-                this.setState({ theme: evt.theme })
                 break;
         }
     }
