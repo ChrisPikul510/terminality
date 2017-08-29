@@ -1,0 +1,75 @@
+div.prompt {
+    width: 100%;
+
+    div.prompt-content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .prompt-prefix {
+            color: green;
+            margin-right: 1ch;
+
+            .pmt-pre-user {
+                color: #00af00;
+                font-weight: bold;
+            }
+
+            .pmt-pre-host {
+
+            }
+
+            .pmt-pre-path {
+
+            }
+
+            .pmt-pre-end {
+                
+            }
+
+            .pmt-pre-sepr {
+                color: darkgreen;
+            }
+        }
+
+        .prompt-cursor {
+            will-change: background-color;
+            animation: blink 0.5s linear alternate infinite;
+
+            @keyframes blink {
+                0% {
+                    background-color: transparent;
+                }
+                45% {
+                    background-color: transparent;
+                }
+                55% {
+                    background-color: lime;
+                }
+                100% {
+                    background-color: lime;
+                }
+            }
+        }
+
+        .pmt-space {
+            background: #111;
+        }
+
+        .pmt-cmd {
+            font-weight: bold;
+        }
+
+        .pmt-prop {
+            color: cyan;
+        }
+    }
+
+    &.pmt-sudo {
+        div.prompt-content span.prompt-prefix { color: gold; }
+        div.prompt-content span.prompt-prefix .pmt-pre-user { color: yellow; }
+        div.prompt-content span.prompt-prefix .pmt-pre-sepr { color: darkgoldenrod; }
+    }
+}

@@ -1,0 +1,35 @@
+html, body {
+    position: relative;
+    
+    font-family: monospace;
+    font-size: 14px;
+    color: limegreen;
+    background: #010A00;
+
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+html, body, body * {
+    box-sizing: border-box;
+}
+
+pre {
+    margin: 0;
+}
+
+#shell {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
