@@ -38,7 +38,7 @@ export default class Prompt extends React.Component {
                     <span className='pmt-pre-end'>{sudo ? '#' : '$'}</span>
                 </span>
                 { this.state.value }
-                { this.state.active && <span className='prompt-cursor'>&nbsp;</span> }
+                { this.state.active && <span className='prompt-cursor'></span> }
             </div>
         </div>
     }

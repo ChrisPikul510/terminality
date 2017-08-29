@@ -109,7 +109,7 @@ export default class Shell extends React.Component {
                 if(Errors.hasOwnProperty(err))
                     formatted = formatOutput(Errors[err], _exec)
                 else
-                    formatted = formatOutput(Erros.PANIC, _exec)
+                    formatted = formatOutput(Errors.PANIC, _exec)
 
                 this.refs.feed.addEntry({
                     user: _exec.user,

@@ -35,6 +35,11 @@ div.prompt {
         }
 
         .prompt-cursor {
+            content: ' ';
+            display: inline-block;
+            width: 1ch;
+            height: 1.24em;
+            vertical-align: baseline;
             will-change: background-color;
             animation: blink 0.5s linear alternate infinite;
 

@@ -4,7 +4,8 @@
   "description": "React based terminal emulator (for fun)",
   "main": "dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "build": "webpack -p --config webpack.build.js"
   },
   "keywords": [
     "Terminal",
