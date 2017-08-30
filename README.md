@@ -1,5 +1,7 @@
-# terminality
+# terminality 
 Yet Another JS Terminal Simulator/Emulator
+
+[View the Live Demo](https://chrispikul510.github.io/terminality/)
 
 ## What is this?
 Just a little toy program I wrote in Babel ES6 React to simulate a terminal/bash/commandline. It is not an _emulation_ of bash or any other 
