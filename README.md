@@ -32,7 +32,7 @@ Given a user input, it roughly tokenizes this and syntax colors it as needed. Wh
 ### Parser / Call
 When Shell receives a command input from prompt it sends it to the parser. The parser first cleans the command (trims empty white space), and 
 replaces any environment variables it finds (these are denoted as $ENV, ex. $PATH). Then it sends these for tokenization, which breaks the input 
-up into an array of pieces based on white-space. The tokenizer does consider quotes and keeps those intact. From their, a call object is created.
+up into an array of pieces based on white-space. The tokenizer does consider quotes and keeps those intact. From there, a call object is created.
 The call object is basically just a manifest of the considered command structure. It treats the first token as command/program, and the rest as arguments. 
 But! The arguments are roughly parsed based on if they start with `-`, which then denotes them as properties (read: flags/options).
 
@@ -62,7 +62,7 @@ and the stdout results to the Feed object to store as history. This completes th
 Until package manager is built, there's no great way to add programs without manually changing the sourcecode here. But writing the actual programs is easy...
 
 Programs are just functions. They take (optionally) the execution properties, and return either null (no output), or string (raw output).
-Programs are executed in a Promise chain, so returning a Promise that resolves to one of those is a `GREAT` option.
+Programs are executed in a Promise chain, so returning a Promise that resolves to one of those is a __GREAT__ option.
 
 Either way the outline of execution properties looks like this:
 
@@ -86,5 +86,5 @@ Either way the outline of execution properties looks like this:
 }
 ```
 
-The function for your program can then return a string, or a promuse that resolves to a string, and that will be outputted to the feed.
-Feed output is surrounded by a `<pre>` tag, so \n and \t are respected.
+The function for your program can then return a string, or a promise that resolves to a string, and that will be outputted to the feed.
+Feed output is surrounded by a `<pre>` tag, so `\n` and `\t` are respected.
